@@ -188,8 +188,8 @@ ctrl_row = pn.Row(instruction_md, gpx_input)
 route_map = folium.Map(
     location=[56.945695, 24.120704],
     zoom_start=13,
-    tiles='https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-    attr='<a href="https://carto.com/attributions">CARTO</a>',
+    tiles='https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png',
+    attr='<a href="https://stadiamaps.com/">Stadia Maps</a',
 )
 
 gspec = pn.GridSpec(sizing_mode='stretch_both', min_height=800)
