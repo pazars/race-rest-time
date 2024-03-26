@@ -18,7 +18,7 @@ def determine_stop_info(gpx):
     rest_time = 0
     stop_separation = 0
 
-    # If the stop time is less than the threshold, stop is ignored
+    # If the stop time in seconds is less than the threshold, stop is ignored
     rest_threshold = 10
 
     # If distance between stops is less than the threshold, stops are counted as one
@@ -46,7 +46,7 @@ def determine_stop_info(gpx):
         dlon = point.longitude - previous_point.longitude
 
         if dt.seconds > rest_threshold:
-            elapsed_time = (previous_point.time - start_time).seconds
+            elapsed_time = (previous_point.time - start_time).total_seconds()
             stops_info.append(
                 [
                     previous_point.latitude,
@@ -61,7 +61,7 @@ def determine_stop_info(gpx):
         elif dlat == 0 and dlon == 0:
             if not tracking_rest:
                 tracking_rest = True
-                elapsed_time = (previous_point.time - start_time).seconds
+                elapsed_time = (previous_point.time - start_time).total_seconds()
                 rest_lat = previous_point.latitude
                 rest_lon = previous_point.longitude
                 rest_race_time = previous_point.time

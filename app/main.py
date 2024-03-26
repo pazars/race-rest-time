@@ -61,14 +61,14 @@ def _display_stops_on_map(route_map, stops_info, gpx):
             rest_time_str = f"{hours}h {minutes}min"
 
         if elapsed_time < 60:
-            elapsed_time_str = f"{elapsed_time}s"
+            elapsed_time_str = f"{int(elapsed_time)}s"
         elif elapsed_time < 3600:
-            minutes = elapsed_time // 60
-            seconds = elapsed_time % 60
+            minutes = int(elapsed_time // 60)
+            seconds = int(elapsed_time % 60)
             elapsed_time_str = f"{minutes}min {seconds}s"
         else:
-            hours = elapsed_time // 3600
-            minutes = (elapsed_time % 3600) // 60
+            hours = int(elapsed_time // 3600)
+            minutes = int((elapsed_time % 3600) // 60)
             elapsed_time_str = f"{hours}h {minutes}min"
 
         text = f"<p>Race time: {race_time.strftime(format='%A %b %d %I:%M %p')}</p><p>Elapsed time: {elapsed_time_str}</p><p>Rest time: {rest_time_str}</p>"
@@ -127,4 +127,5 @@ gspec = pn.GridSpec(sizing_mode="stretch_both", min_height=800)
 gspec[0, :] = ctrl_row
 gspec[1:30, :] = pn.bind(display_gpx_on_map, route_map, gpx_input)
 
+# panel serve main.py --autoreload --show
 gspec.servable()
