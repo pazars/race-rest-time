@@ -18,8 +18,8 @@ def _display_start_finish(route_map, gpx):
     start_lat = course.points[0].latitude
     start_lon = course.points[0].longitude
 
-    fin_lat = course.points[0].latitude
-    fin_lon = course.points[0].longitude
+    fin_lat = course.points[-1].latitude
+    fin_lon = course.points[-1].longitude
 
     # Start position marker
     folium.Marker(
