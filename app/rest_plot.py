@@ -10,13 +10,11 @@ from analyze_gpx import determine_stop_info
 if __name__ == "__main__":
     GPX_PATHS = [
         (
-            Path("C:/Users/davis/iCloudDrive/Documents/ultra-gravel-lv/GPX/PAZARS.gpx"),
+            Path.home() / Path("Documents/ultra-gravel-lv/GPX/PAZARS.gpx"),
             "Pazars",
         ),
         (
-            Path(
-                "C:/Users/davis/iCloudDrive/Documents/ultra-gravel-lv/GPX/SNEIDERS.gpx"
-            ),
+            Path.home() / Path("Documents/ultra-gravel-lv/GPX/SNEIDERS.gpx"),
             "Šneiders",
         ),
     ]
