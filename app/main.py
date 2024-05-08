@@ -33,14 +33,14 @@ def _display_stops_on_map(route_map, stops_info, gpx):
     for _, stop in stops_info.iterrows():
         lat, lon, race_time, elapsed_time, stop_time, merged = stop
 
-        if stop_time < 60:  # 10 minutes
-            icon_color = "lightgreen"
+        if stop_time < 60:  # 1 minute
+            icon_color = "blue"
 
         elif stop_time < 5 * 60:  # 5 minutes
             icon_color = "orange"
 
         else:
-            icon_color = "lightred"
+            icon_color = "red"
 
         if stop_time < 60:
             rest_time_str = f"{stop_time}s"
