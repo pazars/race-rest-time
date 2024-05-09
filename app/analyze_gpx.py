@@ -1,6 +1,7 @@
 import gpxpy
 import geopy.distance
 
+import gpxpy.gpx
 import pandas as pd
 
 from pathlib import Path
@@ -19,7 +20,7 @@ def determine_stop_info(gpx):
     stop_separation = 0
 
     # If the stop time in seconds is less than the threshold, stop is ignored
-    rest_threshold = 10
+    rest_threshold = 30
 
     # If distance between stops is less than the threshold, stops are counted as one
     spatial_threshold = 20  # meters
@@ -99,11 +100,49 @@ def determine_stop_info(gpx):
     return stops_info_df
 
 
+def save_gpx_with_stop_info(gpx, gpx_out):
+    stops = determine_stop_info(gpx)
+    
+    for _, stop in stops.iterrows():
+        stop_time = stop["Stop time"]
+        if stop_time <= 60:
+            name = "Īsa pauze"
+            description = f"{stop_time}s"
+        elif stop_time <= 5 * 60:
+            name = "Tipiska pauze"
+            mins = stop_time // 60
+            secs = stop_time - mins * 60
+            description = f"{mins}min {secs}s"
+        elif stop_time <= 15 * 60:
+            name = "Gara pauze"
+            mins = stop_time // 60
+            secs = stop_time - mins * 60
+            description = f"{mins}min {secs}s"
+        else:
+            name = "Ilgstoša atpūta"
+            hours = stop_time // 3600
+            mins = (stop_time - hours * 3600) // 60
+            secs = stop_time - mins * 60
+            description = f"{hours}h {mins}min {secs}s"
+
+        waypoint = gpxpy.gpx.GPXWaypoint(
+            latitude=stop["Latitude"],
+            longitude=stop["Longitude"],
+            name=name,
+            description=description
+        )
+
+        gpx.waypoints.append(waypoint)
+
+    with open(gpx_out, "w") as f:
+        f.write(gpx.to_xml())
+
+
 if __name__ == "__main__":
-    GPX_PATH = Path("C:/Users/davis.pazars/Documents/everesting.gpx")
+    GPX_PATH = Path.home() / Path("Documents/ultra-gravel-lv/GPX/SNEIDERS.gpx")
+    GPX_OUT = Path.home() / Path("Documents/ultra-gravel-lv/GPX/SNEIDERS_REST.gpx")
 
     with open(GPX_PATH.as_posix(), "r") as gpx_file:
         gpx = gpxpy.parse(gpx_file)
 
-    stops = determine_stop_info(gpx)
-    haha = True
+    save_gpx_with_stop_info(gpx, GPX_OUT)
